@@ -3,6 +3,7 @@ package fr.jeromelesaux.app.bebop;
 import com.google.gson.Gson;
 import fr.jeromelesaux.app.bebop.csv.CsvFile;
 import fr.jeromelesaux.app.bebop.entity.PUD;
+import fr.jeromelesaux.app.bebop.graphic.Graphic;
 import fr.jeromelesaux.app.bebop.kml.KmlFile;
 
 import javax.xml.bind.JAXBException;
@@ -39,6 +40,9 @@ public class Main {
                 LOG.info("Generate KML file.");
                 KmlFile kmlFile = new KmlFile();
                 kmlFile.generate(pud,new File(pud.getProductId() + pud.getFormatedDate() +".kml"));
+                LOG.info("Generate png file.");
+                Graphic graphic = new Graphic();
+                graphic.generate(pud,new File(pud.getProductId() + pud.getFormatedDate() +".png"));
                 LOG.info("Files " + pud.getProductId() + pud.getFormatedDate() +".csv " + pud.getProductId() + pud.getFormatedDate() +".kml generated.");
             } catch (FileNotFoundException e) {
                LOG.severe("Cannot find pud file " + pudFile.getAbsolutePath());
