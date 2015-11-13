@@ -3,7 +3,11 @@ package fr.jeromelesaux.app.bebop.entity;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -61,6 +65,7 @@ public class PUD implements Serializable{
     @SerializedName("details_data")
     private List<List<Object>> rawData;
 
+    private transient Calendar calendar;
     private transient List<DetailsData> detailsData = new ArrayList<DetailsData>();
 
 
@@ -252,8 +257,21 @@ public class PUD implements Serializable{
     public void setDetailsData(List<DetailsData> detailsData) {
         this.detailsData = detailsData;
     }
+    
+    public String getFormatedDate() {
+        if (calendar!=null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+            return dateFormat.format(calendar.getTime());
+        }
+        return "";
+    }
 
-    public void unRawData() {
+    public void unRawData() throws ParseException {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'kkmmss+");
+        calendar = new GregorianCalendar();
+        calendar.setTime(dateFormat.parse(date));
+        
         for (List<Object> raw : rawData) {
             int index=0;
             DetailsData data = new DetailsData();

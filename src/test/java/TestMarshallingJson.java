@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -87,7 +88,7 @@ public class TestMarshallingJson {
 
 
     @Test
-    public void unrawData() throws FileNotFoundException {
+    public void unrawData() throws FileNotFoundException, ParseException {
         Gson gson = new Gson();
         final PUD pud = gson.fromJson(new FileReader(TestMarshallingJson.class.getResource("/sample.pud.json").getPath()), PUD.class);
         pud.unRawData();

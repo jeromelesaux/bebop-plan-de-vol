@@ -10,6 +10,7 @@ import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,9 +33,21 @@ public class KmlFile {
         placemark.setName("Fly of the " + pud.getDate() + " for the drone " + pud.getProductName() + pud.getSerialNumber());
         placemark.setVisibility(true);
         placemark.setOpen(false);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        placemark.setDescription("Fly " + pud.getDate() + " for the drone " + pud.getProductName()
+                + "<br>Serial number " + pud.getSerialNumber()
+                + "<br>Version " + pud.getVersion()
+                + "<br>Hardware version " + pud.getHardwareVersion()
+                + "<br>Software version " + pud.getSoftwareVersion()
+                + "<br>UUID " + pud.getUuid()
+                + "<br>Number of crashs " + pud.getCrash()
+                + "<br>Controller application " + pud.getControllerApplication()
+                + "<br>Controller model " + pud.getControllerModel()
+                + "<br>Fly duration " + decimalFormat.format(pud.getTotalRunTime() / 60000.) + " minutes"
+        );
         final LineString line = KmlFactory.createLineString();
         line.setExtrude(false);
-        line.setAltitudeMode(AltitudeMode.RELATIVE_TO_GROUND);
+        line.setAltitudeMode(AltitudeMode.CLAMP_TO_GROUND);
         for (DetailsData detailsData : pud.getDetailsData()) {
 //            LOG.info("add lineString "  + detailsData.getProductGpsLongitude() + "," + detailsData.getProductGpsLatitude() +"," +detailsData.getAltitude());
             if (detailsData.getProductGpsAvailable() && !detailsData.getProductGpsLatitude().equals(500.)) {

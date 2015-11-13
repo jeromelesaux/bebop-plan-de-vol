@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 /**
@@ -34,16 +35,19 @@ public class Main {
                 pud.unRawData();
                 LOG.info("Generate csv file.");
                 CsvFile csvFile = new CsvFile();
-                csvFile.generate(pud,new File("pud.csv"));
+                csvFile.generate(pud,new File(pud.getProductId() + pud.getFormatedDate() +".csv"));
                 LOG.info("Generate KML file.");
                 KmlFile kmlFile = new KmlFile();
-                kmlFile.generate(pud,new File("pud.kml"));
+                kmlFile.generate(pud,new File(pud.getProductId() + pud.getFormatedDate() +".kml"));
+                LOG.info("Files " + pud.getProductId() + pud.getFormatedDate() +".csv " + pud.getProductId() + pud.getFormatedDate() +".kml generated.");
             } catch (FileNotFoundException e) {
                LOG.severe("Cannot find pud file " + pudFile.getAbsolutePath());
             } catch (IOException e) {
                 LOG.severe("Cannot create Csv file.");
             } catch (JAXBException e) {
                 LOG.severe("Cannot create kml file.");
+            } catch (ParseException e) {
+                LOG.severe("Cannot parse date of the pud file.");
             }
 
         }
